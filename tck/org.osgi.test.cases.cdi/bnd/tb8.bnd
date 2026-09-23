@@ -1,0 +1,2 @@
+Export-Package: ${p}.tb8.*;-split-package:=first
+-cdiannotations: *;discover=all
