@@ -11,7 +11,7 @@
 -runproperties: \
 	eclipse.consoleLog=true,\
 	eclipse.log.level=DEBUG,\
-	org.osgi.framework.bootdelegation="sun.misc,sun.reflect"
+	org.osgi.framework.bootdelegation="sun.misc,sun.reflect,org.mockito.internal.creation.bytebuddy.inject"
 
 -runfw: org.eclipse.osgi
 

@@ -11,7 +11,7 @@
 -runproperties: \
 	eclipse.consoleLog=true,\
 	eclipse.log.level=DEBUG,\
-	org.osgi.framework.bootdelegation="sun.misc,sun.reflect",\
+	org.osgi.framework.bootdelegation="sun.misc,sun.reflect,org.mockito.internal.creation.bytebuddy.inject",\
 	org.osgi.framework.security=osgi,\
 	org.osgi.framework.trust.repositories=${def;tck.keystore}
 
