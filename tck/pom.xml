@@ -18,7 +18,7 @@
 		<geronimo-annotation_1.3_spec.version>1.1</geronimo-annotation_1.3_spec.version>
 		<geronimo-atinject_1.0_spec.version>1.2</geronimo-atinject_1.0_spec.version>
 		<geronimo-el_2.2_spec.version>1.1</geronimo-el_2.2_spec.version>
-		<geronimo-interceptor_1.2_spec.version>1.1</geronimo-interceptor_1.2_spec.version>
+		<geronimo-interceptor_1.2_spec.version>1.2</geronimo-interceptor_1.2_spec.version>
 		<geronimo-jcdi_2.0_spec.version>1.1</geronimo-jcdi_2.0_spec.version>
 		<hamcrest.version>2.2</hamcrest.version>
 		<jakarta.xml.soap-api.version>1.4.2</jakarta.xml.soap-api.version>
