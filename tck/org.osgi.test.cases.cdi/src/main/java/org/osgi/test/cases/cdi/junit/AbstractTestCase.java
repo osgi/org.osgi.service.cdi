@@ -269,6 +269,12 @@ public abstract class AbstractTestCase {
 	static final Bundle bundle = FrameworkUtil.getBundle(CdiBeanTests.class);
 	static final BundleContext bundleContext = bundle.getBundleContext();
 	long															timeout			= 500;
+	/**
+	 * Upper bound for a service of a container that was just started to
+	 * appear: the container starts asynchronously, the first one of a run
+	 * slowly (class loading). waitForService returns as soon as it is there.
+	 */
+	long															startTimeout	= 10000;
 	static Bundle servicesBundle;
 	static ServiceTracker<CDIComponentRuntime, CDIComponentRuntime> runtimeTracker;
 

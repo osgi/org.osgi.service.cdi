@@ -153,7 +153,8 @@ public class CdiBeanTests extends AbstractTestCase {
 			BeanService.class.getName(),
 				"MethodInjectedService");) {
 
-			BeanService beanService = tracker.waitForService(1000);
+			// the first test of the run: its container starts the slowest
+			BeanService beanService = tracker.waitForService(startTimeout);
 
 			assertNotNull(beanService);
 			assertEquals("PREFIXMETHOD", beanService.doSomething());
