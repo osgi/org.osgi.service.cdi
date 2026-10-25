@@ -31,12 +31,14 @@
 
 package org.osgi.test.cases.cdi.junit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.awaitility.Awaitility;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +53,10 @@ public class DisableComponentTests extends AbstractTestCase {
 	@Before
 	@Override
 	public void setUp() throws Exception {
+		// as ConfigurationTests: exceptions of other threads, such as the
+		// container's while it changes, must not fail an await
+		Awaitility.doNotCatchUncaughtExceptionsByDefault();
+		Awaitility.pollInSameThread();
 		adminTracker = new ServiceTracker<>(bundleContext, ConfigurationAdmin.class, null);
 		adminTracker.open();
 		configurationAdmin = adminTracker.getService();
@@ -81,7 +87,7 @@ public class DisableComponentTests extends AbstractTestCase {
 			"ContainerBean",
 				tb8Bundle.getBundleId());) {
 
-			Pojo pojo = tracker.waitForService(timeout);
+			Pojo pojo = tracker.waitForService(startTimeout);
 
 			assertNotNull(pojo);
 
@@ -91,30 +97,23 @@ public class DisableComponentTests extends AbstractTestCase {
 				configurationA = configurationAdmin.getConfiguration("osgi.cdi.org.osgi.test.cases.cdi.tb8", "?");
 
 				Dictionary<String, Object> p1 = new Hashtable<>();
-				p1.put("cdi-itests.tb8.enabled", false);
+				// 152 Container Component: the container component is named
+				// after the container id, by default 'osgi.cdi.' + the
+				// Bundle-SymbolicName; disabling it disables all components
+				p1.put("osgi.cdi." + tb8Bundle.getSymbolicName() + ".enabled",
+						false);
 
 				configurationA.update(p1);
 
-				for (int i = 20; (i > 0) && (!tracker.isEmpty()); i--) {
-					Thread.sleep(20);
-				}
-
-				pojo = tracker.getService();
-
-				assertNull(pojo);
+				// the configuration reaches the container asynchronously
+				await().untilAsserted(() -> assertNull(tracker.getService()));
 
 				p1 = new Hashtable<>();
 				p1.put("containerBean.enabled", true);
 
 				configurationA.update(p1);
 
-				for (int i = 30; (i > 0) && (tracker.isEmpty()); i--) {
-					Thread.sleep(20);
-				}
-
-				pojo = tracker.getService();
-
-				assertNotNull(pojo);
+				await().untilAsserted(() -> assertNotNull(tracker.getService()));
 			} finally {
 				if (configurationA != null) {
 					try {
@@ -138,7 +137,7 @@ public class DisableComponentTests extends AbstractTestCase {
 			"SingleComponentBean",
 				tb8Bundle.getBundleId());) {
 
-			Pojo pojo = tracker.waitForService(timeout);
+			Pojo pojo = tracker.waitForService(startTimeout);
 
 			assertNotNull(pojo);
 
@@ -152,26 +151,15 @@ public class DisableComponentTests extends AbstractTestCase {
 
 				configurationA.update(p1);
 
-				for (int i = 20; (i > 0) && (!tracker.isEmpty()); i--) {
-					Thread.sleep(20);
-				}
-
-				pojo = tracker.getService();
-
-				assertNull(pojo);
+				// the configuration reaches the container asynchronously
+				await().untilAsserted(() -> assertNull(tracker.getService()));
 
 				p1 = new Hashtable<>();
 				p1.put("singleComponentBean.enabled", true);
 
 				configurationA.update(p1);
 
-				for (int i = 20; (i > 0) && (tracker.isEmpty()); i--) {
-					Thread.sleep(20);
-				}
-
-				pojo = tracker.getService();
-
-				assertNotNull(pojo);
+				await().untilAsserted(() -> assertNotNull(tracker.getService()));
 			} finally {
 				if (configurationA != null) {
 					try {
