@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<awaitility.version>4.2.0</awaitility.version>
+		<awaitility.version>4.3.0</awaitility.version>
 		<geronimo-activation_1.1_spec.version>1.0.2</geronimo-activation_1.1_spec.version>
 		<geronimo-annotation_1.3_spec.version>1.1</geronimo-annotation_1.3_spec.version>
 		<geronimo-atinject_1.0_spec.version>1.2</geronimo-atinject_1.0_spec.version>
